@@ -9,6 +9,7 @@ var jsonParser = bodyParser.json();
 
 app.use('/assets', express.static(__dirname + '/public'));
 app.use(express.urlencoded());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.set('view engine', 'ejs');
 
@@ -36,10 +37,10 @@ app.get('/family/:name', function(req, res) {
   res.render('person', { Id: req.params.id, Qstr: req.query.qstr });
 });
 
-app.post('/contact', (req, res) => {
-  const userinfo = req.body.userinfo;
+app.post('/submit-form', (req, res) => {
+  let userinfo = req.body;
   console.log(userinfo);
-  res.end();
+  res.send('Submitted succesfully!');
 });
 
 app.listen(port);
