@@ -17,8 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-  console.log(flist);
-  res.render('index', { flist: flist });
+  res.render('index');
 });
 
 app.get('/aboutme', function(req, res) {
@@ -34,7 +33,7 @@ app.get('/contact', function(req, res) {
 });
 
 app.get('/family', function(req, res) {
-  res.render('family');
+  res.render('family', { flist: flist });
 });
 
 app.post('/submit-form', (req, res) => {

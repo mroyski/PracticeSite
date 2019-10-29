@@ -16,5 +16,10 @@
     <header>
       <% include ./partials/nav %>
     </header>
+    <ol>
+      <% for(var i=0; i < flist.length; i++) { %>
+      <li><%= flist[i].firstname %> <%=flist[i].lastname %></li>
+      <% } %>
+    </ol>
   </body>
 </html>
