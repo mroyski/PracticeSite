@@ -36,7 +36,7 @@ app.get('/family/:name', function(req, res) {
   res.render('person', { Id: req.params.id, Qstr: req.query.qstr });
 });
 
-app.post('submit-form', (req, res) => {
+app.post('/contact', (req, res) => {
   const userinfo = req.body.userinfo;
   console.log(userinfo);
   res.end();
