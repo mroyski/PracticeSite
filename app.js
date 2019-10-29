@@ -1,5 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+const fs = require('fs');
+
 var app = express();
 
 var port = process.env.PORT || 3000;
@@ -12,6 +14,10 @@ app.use(express.urlencoded());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.set('view engine', 'ejs');
+
+let familyData = fs.readFileSync('family.json');
+let familyMembers = JSON.parse(familyData);
+console.log(familyMembers);
 
 app.get('/', function(req, res, next) {
   res.render('index');
@@ -30,10 +36,10 @@ app.get('/contact', function(req, res) {
 });
 
 app.get('/family', function(req, res) {
-  res.render('family');
+  res.render('family', { familyMember: JSON.stringify(familyMember) });
 });
 
-app.get('/family/:name', function(req, res) {
+app.get('/family/:firstname', function(req, res) {
   res.render('person', { Id: req.params.id, Qstr: req.query.qstr });
 });
 
