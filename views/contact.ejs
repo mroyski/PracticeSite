@@ -12,11 +12,12 @@
     />
     <title>Contact</title>
   </head>
-  <body style="width:80vw;margin:auto;">
-    <header>
-      <% include ./partials/nav %>
-    </header>
-    <h1 class="text-primary">Contact</h1>
+  <body>
+      <header>
+          <% include ./partials/nav %>
+        </header>
+      <div style="width:700px;margin:auto;padding:0;">
+    <h1 class="text-primary" style="text-align:center">Contact</h1>
     <form method="POST" action="/submit-form">
       <div class="form-group">
         <label for="firstname">First Name</label>
@@ -49,5 +50,6 @@
           />
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    </div>
   </body>
 </html>

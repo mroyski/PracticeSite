@@ -12,15 +12,17 @@
     />
     <title>Family</title>
   </head>
-  <body style="width:80vw;margin:auto;">
+  <body>
     <header>
       <% include ./partials/nav %>
     </header>
-    <h1 class="text-primary">Family</h1>
-    <ol style="padding:0;">
-      <% for(var i=0; i < flist.length; i++) { %>
-      <li><%= flist[i].firstname %> <%=flist[i].lastname %></li>
-      <% } %>
-    </ol>
+    <div style="width:80vw;margin:auto;text-align:center;padding:0;">
+      <h1 class="text-primary">Family</h1>
+      <ol style="padding:0;list-style:none;">
+        <% for(var i=0; i < flist.length; i++) { %>
+        <li><%= flist[i].firstname %> <%=flist[i].lastname %></li>
+        <% } %>
+      </ol>
+    </div>
   </body>
 </html>
