@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-const fs = require('fs');
+var mysql = require('mysql');
 const flist = require('./family.json');
 
 var app = express();
@@ -11,8 +11,32 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var jsonParser = bodyParser.json();
 
 app.use('/assets', express.static(__dirname + '/public'));
-app.use(express.urlencoded());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(express.urlencoded());
+// app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/', function(req, res, next) {
+  console.log('Request Url:' + req.url);
+
+  var con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'addressbook'
+  });
+  console.log(con);
+  con.connect(function(err) {
+    if (err) throw err;
+    console.log('You are now connected...');
+  });
+  con.query('SELECT * FROM addressbook.family;', function(
+    error,
+    results,
+    fields
+  ) {
+    if (error) throw error;
+    console.log('The solution is: ', results);
+  });
+  next();
+});
 
 app.set('view engine', 'ejs');
 
