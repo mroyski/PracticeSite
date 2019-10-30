@@ -64,10 +64,27 @@ app.get('/family/:firstname', function(req, res) {
   res.send(req.params);
 });
 
-app.post('/submit-form', (req, res) => {
-  let userinfo = req.body;
-  console.log(userinfo);
-  res.send('Submitted succesfully!');
+app.post('/submit-form', urlencodedParser, (req, res) => {
+  var con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'addressbook'
+  });
+
+  con.connect(function(err) {
+    if (err) throw err;
+    let userinfo = req.body;
+    var sql = `INSERT INTO family (firstname, lastname, email) VALUES ('${userinfo.firstname}', '${userinfo.lastname}', '${userinfo.email}');`;
+    console.log(sql);
+    con.query(sql, function(err, result) {
+      if (err) throw err;
+      console.log('1 record inserted');
+    });
+    console.log(userinfo);
+    res.send('Submitted succesfully!');
+  });
+  next();
 });
 
 app.listen(port);
