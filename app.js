@@ -36,6 +36,10 @@ app.get('/family', function(req, res) {
   res.render('family', { flist: flist });
 });
 
+app.get('/family/:firstname', function(req, res) {
+  res.send(req.params);
+});
+
 app.post('/submit-form', (req, res) => {
   let userinfo = req.body;
   console.log(userinfo);
