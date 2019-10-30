@@ -92,4 +92,27 @@ app.post('/submit-form', urlencodedParser, (req, res) => {
   });
 });
 
+var obj = {};
+app.get('/guestbook', jsonParser, function(req, res) {
+  var con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'addressbook'
+  });
+  con.connect(function(err) {
+    if (err) throw err;
+    console.log('Connected');
+    var sql = 'SELECT * FROM family';
+    con.query(sql, function(err, result) {
+      if (err) {
+        throw err;
+      } else {
+        obj = { print: result };
+        var newobj = JSON.stringify(result);
+        res.render('guestbook', { newobj: newobj });
+      }
+    });
+  });
+});
 app.listen(port);
