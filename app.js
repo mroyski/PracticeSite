@@ -65,6 +65,13 @@ app.get('/family/:firstname', function(req, res) {
 });
 
 app.post('/submit-form', urlencodedParser, (req, res) => {
+  if (req.body.first_name === '' || !req.body.lastname || !req.body.email) {
+    res.status(500);
+    res.render(
+      'error',
+      'form info is missing, submit first_name, last_name, and a email'
+    );
+  }
   var con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -81,7 +88,6 @@ app.post('/submit-form', urlencodedParser, (req, res) => {
       if (err) throw err;
       console.log('1 record inserted');
     });
-    console.log(userinfo);
     res.send('Submitted succesfully!');
   });
 });
