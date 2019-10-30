@@ -84,7 +84,6 @@ app.post('/submit-form', urlencodedParser, (req, res) => {
     console.log(userinfo);
     res.send('Submitted succesfully!');
   });
-  next();
 });
 
 app.listen(port);
