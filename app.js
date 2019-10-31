@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var flist = require('./family.json');
-var aboutmejson = require('./aboutme.json');
+var content = require('./content.json');
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -11,7 +11,7 @@ var jsonParser = bodyParser.json();
 
 app.use(bodyParser.text({ type: 'text/html' }));
 app.use('/assets', express.static(__dirname + '/public'));
-app.use(express.urlencoded());
+// app.use(express.urlencoded());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', function(req, res, next) {
   var con = mysql.createConnection({
@@ -142,8 +142,13 @@ app.get('/api/guestbook', function(req, res) {
   });
 });
 
-app.get('/api/aboutme', function(req, res) {
-  res.json(aboutmejson);
+// app.get('/api/aboutme', function(req, res) {
+//   res.json(aboutmejson);
+// });
+
+app.get('/newaboutme', function(req, res) {
+  res.render('template', { content: content.aboutme });
+  console.log(content.aboutme);
 });
 
 app.listen(port);
