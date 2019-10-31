@@ -10,17 +10,10 @@ var port = process.env.PORT || 3000;
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var jsonParser = bodyParser.json();
 
+app.use(bodyParser.text({ type: 'text/html' }));
 app.use('/assets', express.static(__dirname + '/public'));
-// app.use(express.urlencoded());
-// app.use(bodyParser.urlencoded({ extended: false }));
-
-var con = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'addressbook'
-});
-
+app.use(express.urlencoded());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', function(req, res, next) {
   var con = mysql.createConnection({
     host: 'localhost',
@@ -148,6 +141,10 @@ app.get('/api/guestbook', function(req, res) {
       }
     });
   });
+});
+
+app.get('/api/aboutme', function(req, res) {
+  res.json('aboutme');
 });
 
 app.listen(port);
