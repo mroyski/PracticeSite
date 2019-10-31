@@ -85,6 +85,10 @@ app.get('/family/:firstname', function(req, res, next) {
   res.end(req.params.firstname);
 });
 
+app.get('/api/family', function(req, res) {
+  res.json(flist);
+});
+
 app.post('/submit-form', urlencodedParser, (req, res) => {
   if (req.body.firstname === '' || !req.body.lastname || !req.body.email) {
     res.status(500);
@@ -121,6 +125,26 @@ app.get('/guestbook', jsonParser, function(req, res) {
         throw err;
       } else {
         res.render('guestbook', { result: result });
+      }
+    });
+  });
+});
+
+app.get('/api/guestbook', function(req, res) {
+  var con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'addressbook'
+  });
+  con.connect(function(err) {
+    if (err) throw err;
+    var sql = 'SELECT * FROM family';
+    con.query(sql, function(err, result) {
+      if (err) {
+        throw err;
+      } else {
+        res.json(result);
       }
     });
   });
