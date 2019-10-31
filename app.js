@@ -13,6 +13,14 @@ var jsonParser = bodyParser.json();
 app.use('/assets', express.static(__dirname + '/public'));
 // app.use(express.urlencoded());
 // app.use(bodyParser.urlencoded({ extended: false }));
+
+var con = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  database: 'addressbook'
+});
+
 app.use('/', function(req, res, next) {
   console.log('Request Url:' + req.url);
 
@@ -72,12 +80,6 @@ app.post('/submit-form', urlencodedParser, (req, res) => {
       'form info is missing, submit first_name, last_name, and a email'
     );
   }
-  var con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'addressbook'
-  });
 
   con.connect(function(err) {
     if (err) throw err;
@@ -109,10 +111,11 @@ app.get('/guestbook', jsonParser, function(req, res) {
         throw err;
       } else {
         obj = { print: result };
-        var newobj = JSON.stringify(result);
-        res.render('guestbook', { newobj: newobj });
+        console.log('RESULT******************', result[0]);
+        res.render('guestbook', { result: result });
       }
     });
   });
 });
+
 app.listen(port);
