@@ -94,7 +94,6 @@ app.post('/submit-form', urlencodedParser, (req, res) => {
   });
 });
 
-var obj = {};
 app.get('/guestbook', jsonParser, function(req, res) {
   var con = mysql.createConnection({
     host: 'localhost',
@@ -104,14 +103,11 @@ app.get('/guestbook', jsonParser, function(req, res) {
   });
   con.connect(function(err) {
     if (err) throw err;
-    console.log('Connected');
     var sql = 'SELECT * FROM family';
     con.query(sql, function(err, result) {
       if (err) {
         throw err;
       } else {
-        obj = { print: result };
-        console.log('RESULT******************', result[0]);
         res.render('guestbook', { result: result });
       }
     });
