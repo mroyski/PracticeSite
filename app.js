@@ -63,11 +63,26 @@ app.get('/family', function(req, res) {
   res.render('family', { flist: flist });
 });
 
-app.get('/familydetails/:firstname', function(req, res) {
-  res.send(req.params);
-  var details = req.params;
-  console.log(details);
-  res.render('familydetails', { details: details });
+// app.get('/familydetails/:firstname', function(req, res) {
+//   res.send(req.params);
+//   var details = req.params;
+//   console.log(details);
+//   res.render('familydetails', { details: details });
+// });
+
+app.get(
+  '/family/:firstname',
+  function(req, res, next) {
+    console.log('First Name:', req.params.firstname);
+    next();
+  },
+  function(req, res, next) {
+    res.send(req.params.firstname);
+  }
+);
+
+app.get('/family/:firstname', function(req, res, next) {
+  res.end(req.params.firstname);
 });
 
 app.post('/submit-form', urlencodedParser, (req, res) => {
