@@ -22,18 +22,14 @@ var con = mysql.createConnection({
 });
 
 app.use('/', function(req, res, next) {
-  console.log('Request Url:' + req.url);
-
   var con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
     database: 'addressbook'
   });
-  console.log(con);
   con.connect(function(err) {
     if (err) throw err;
-    console.log('You are now connected...');
   });
   con.query('SELECT * FROM addressbook.family;', function(
     error,
@@ -41,7 +37,6 @@ app.use('/', function(req, res, next) {
     fields
   ) {
     if (error) throw error;
-    console.log('The solution is: ', results);
   });
   next();
 });
@@ -68,16 +63,19 @@ app.get('/family', function(req, res) {
   res.render('family', { flist: flist });
 });
 
-app.get('/family/:firstname', function(req, res) {
+app.get('/familydetails/:firstname', function(req, res) {
   res.send(req.params);
+  var details = req.params;
+  console.log(details);
+  res.render('familydetails', { details: details });
 });
 
 app.post('/submit-form', urlencodedParser, (req, res) => {
-  if (req.body.first_name === '' || !req.body.lastname || !req.body.email) {
+  if (req.body.firstname === '' || !req.body.lastname || !req.body.email) {
     res.status(500);
     res.render(
       'error',
-      'form info is missing, submit first_name, last_name, and a email'
+      'form info is missing, submit first name, last name, and email'
     );
   }
 
@@ -85,7 +83,6 @@ app.post('/submit-form', urlencodedParser, (req, res) => {
     if (err) throw err;
     let userinfo = req.body;
     var sql = `INSERT INTO family (firstname, lastname, email) VALUES ('${userinfo.firstname}', '${userinfo.lastname}', '${userinfo.email}');`;
-    console.log(sql);
     con.query(sql, function(err, result) {
       if (err) throw err;
       console.log('1 record inserted');
