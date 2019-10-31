@@ -1,1 +1,10 @@
-{ "aboutme": { "title": "About Me", "text": "asdfasdfasdfasdfasdf" } }
+{
+  "aboutme": {
+    "title": "About Me",
+    "text": "Lorem ipsum agsfljklasg saglkj afg ;adsfkjga;ldsfkjga;sfkgj fsjahgash sdfjah dlksha gskjdhgalsdfhjasldfh as ghaslfjghaslfg halskfj hg asdg jas gasjdg ashdlgasjdk glagsdgaioeoiew ao aiod ad oiac jsoij cxzoai jcaops dja is"
+  },
+  "music": {
+    "title": "Music",
+    "text": "asdfa dahsj aldskhasdgl asdkjg hasldkghasdg aljdgasldgajhs gdh  gdjsahsdk gasjdg hasdkjg ahsldkg jalsdkjgh jdghask ldghal sdkjg haksdj ghalsdk jgahsdlkgj"
+  }
+}

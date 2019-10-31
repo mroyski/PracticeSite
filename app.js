@@ -40,11 +40,20 @@ app.get('/', function(req, res) {
 });
 
 app.get('/aboutme', function(req, res) {
-  res.render('aboutme');
+  res.render('template', { content: content.aboutme });
+  console.log(content.aboutme);
+});
+
+app.get('/api/aboutme', function(req, res) {
+  res.json(content.aboutme);
 });
 
 app.get('/music', function(req, res) {
-  res.render('music');
+  res.render('template', { content: content.music });
+});
+
+app.get('/api/music', function(req, res) {
+  res.json(content.music);
 });
 
 app.get('/contact', function(req, res) {
@@ -140,15 +149,6 @@ app.get('/api/guestbook', function(req, res) {
       }
     });
   });
-});
-
-// app.get('/api/aboutme', function(req, res) {
-//   res.json(aboutmejson);
-// });
-
-app.get('/newaboutme', function(req, res) {
-  res.render('template', { content: content.aboutme });
-  console.log(content.aboutme);
 });
 
 app.listen(port);
