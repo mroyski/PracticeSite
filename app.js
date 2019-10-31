@@ -1,12 +1,11 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
-const flist = require('./family.json');
+var flist = require('./family.json');
+var aboutmejson = require('./aboutme.json');
 
 var app = express();
-
 var port = process.env.PORT || 3000;
-
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var jsonParser = bodyParser.json();
 
@@ -144,7 +143,7 @@ app.get('/api/guestbook', function(req, res) {
 });
 
 app.get('/api/aboutme', function(req, res) {
-  res.json('aboutme');
+  res.json(aboutmejson);
 });
 
 app.listen(port);
