@@ -109,7 +109,6 @@ app.post('/submit-form', urlencodedParser, (req, res) => {
       'form info is missing, submit first name, last name, and email'
     );
   }
-
   con.connect(function(err) {
     if (err) throw err;
     let userinfo = req.body;
@@ -121,23 +120,6 @@ app.post('/submit-form', urlencodedParser, (req, res) => {
     res.send('Submitted succesfully!');
   });
 });
-
-app.post('/upload', function(req, res) {
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
-  }
-
-  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  let sampleFile = req.files.sampleFile;
-
-  // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv('/public/img/filename.jpg', function(err) {
-    if (err) return res.status(500).send(err);
-
-    res.send('File uploaded!');
-  });
-});
-
 app.get('/guestbook', jsonParser, function(req, res) {
   var con = mysql.createConnection({
     host: 'localhost',
@@ -175,6 +157,25 @@ app.get('/api/guestbook', function(req, res) {
         res.json(result);
       }
     });
+  });
+});
+
+app.get('/upload', function(req, res) {
+  res.render('upload');
+});
+app.post('/upload', function(req, res) {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  let sampleFile = req.files.sampleFile;
+
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv('./public/img/filename.jpg', function(err) {
+    if (err) return res.status(500).send(err);
+
+    res.send('File uploaded!');
   });
 });
 
