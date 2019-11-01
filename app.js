@@ -167,9 +167,4 @@ app.get('/api/guestbook', function(req, res) {
   });
 });
 
-// FILE UPLOADER
-app.get('/upload', function(req, res) {
-  res.render('upload');
-});
-
 app.listen(port);
