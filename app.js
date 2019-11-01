@@ -85,7 +85,7 @@ app.get('/family', function(req, res) {
 
 app.get('/family/:member1', function(req, res) {
   var person = req.params.member1;
-  var member = flist2[person].firstname;
+  var member = flist2[person];
   console.log(flist2[person]);
   res.render('familydetails', { member: member });
 });
