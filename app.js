@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
+const fileUpload = require('express-fileupload');
 var flist = require('./family.json');
 var content = require('./content.json');
 
@@ -11,8 +12,8 @@ var jsonParser = bodyParser.json();
 
 app.use(bodyParser.text({ type: 'text/html' }));
 app.use('/assets', express.static(__dirname + '/public'));
-// app.use(express.urlencoded());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(fileUpload());
 app.use('/', function(req, res, next) {
   var con = mysql.createConnection({
     host: 'localhost',
@@ -95,6 +96,12 @@ app.get('/api/family', function(req, res) {
 });
 
 app.post('/submit-form', urlencodedParser, (req, res) => {
+  var con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'addressbook'
+  });
   if (req.body.firstname === '' || !req.body.lastname || !req.body.email) {
     res.status(500);
     res.render(
@@ -112,6 +119,22 @@ app.post('/submit-form', urlencodedParser, (req, res) => {
       console.log('1 record inserted');
     });
     res.send('Submitted succesfully!');
+  });
+});
+
+app.post('/upload', function(req, res) {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  let sampleFile = req.files.sampleFile;
+
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv('/public/img/filename.jpg', function(err) {
+    if (err) return res.status(500).send(err);
+
+    res.send('File uploaded!');
   });
 });
 
