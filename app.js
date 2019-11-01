@@ -4,6 +4,7 @@ var mysql = require('mysql');
 const fileUpload = require('express-fileupload');
 var flist = require('./family.json');
 var content = require('./content.json');
+const request = require('request');
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -38,7 +39,20 @@ app.use('/', function(req, res, next) {
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-  res.render('index');
+  let apiKey = 'a8e7f987bc51700c7949df80ee6af321';
+  let city = 'raleigh';
+  let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
+  request(url, function(err, response, body) {
+    if (err) {
+      console.log('error:', error);
+    } else {
+      console.log('body:', body);
+    }
+    let weather = JSON.parse(body);
+    let message = `It's ${weather.main.temp} degrees in ${weather.name}!`;
+    console.log(message);
+    res.render('index', { weather: weather });
+  });
 });
 
 app.get('/api', function(req, res) {
