@@ -29,6 +29,12 @@
         <td><%= item.firstname %></td>
         <td><%= item.lastname %></td>
         <td><%= item.email %></td>
+        <td>
+          <img
+            src="/img/<%= item.filepath %>"
+            style="width:75px;display:block;margin:auto;"
+          />
+        </td>
         <% }) %>
       </tr>
     </table>

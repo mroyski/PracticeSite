@@ -10,6 +10,7 @@ var port = process.env.PORT || 3000;
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var jsonParser = bodyParser.json();
 
+app.use(express.static('public'));
 app.use(bodyParser.text({ type: 'text/html' }));
 app.use('/assets', express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -97,7 +98,8 @@ app.get('/api/family', function(req, res) {
 
 app.post('/submit-form', urlencodedParser, (req, res) => {
   let sampleFile = req.files.sampleFile;
-  sampleFile.mv('./public/img/filename.jpg', function(err) {
+  let fileDir = './public/img';
+  sampleFile.mv(`${fileDir}/${sampleFile.name}`, function(err) {
     if (err) return res.status(500).send(err);
   });
   var con = mysql.createConnection({
@@ -116,7 +118,7 @@ app.post('/submit-form', urlencodedParser, (req, res) => {
   con.connect(function(err) {
     if (err) throw err;
     let userinfo = req.body;
-    var sql = `INSERT INTO family (firstname, lastname, email) VALUES ('${userinfo.firstname}', '${userinfo.lastname}', '${userinfo.email}');`;
+    var sql = `INSERT INTO family (firstname, lastname, email, filepath) VALUES ('${userinfo.firstname}', '${userinfo.lastname}', '${userinfo.email}','${sampleFile.name}' );`;
     con.query(sql, function(err, result) {
       if (err) throw err;
       console.log('1 record inserted');
