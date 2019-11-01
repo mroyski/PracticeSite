@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 const fileUpload = require('express-fileupload');
 var flist = require('./family.json');
+var flist2 = require('./family2.json');
 var content = require('./content.json');
 const request = require('request');
 
@@ -40,7 +41,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
   let apiKey = 'a8e7f987bc51700c7949df80ee6af321';
-  let city = 'raleigh';
+  let city = 'akron';
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
   request(url, function(err, response, body) {
     if (err) {
@@ -49,8 +50,6 @@ app.get('/', function(req, res) {
       console.log('body:', body);
     }
     let weather = JSON.parse(body);
-    let message = `It's ${weather.main.temp} degrees in ${weather.name}!`;
-    console.log(message);
     res.render('index', { weather: weather });
   });
 });
@@ -84,30 +83,15 @@ app.get('/family', function(req, res) {
   res.render('family', { flist: flist });
 });
 
-// app.get('/familydetails/:firstname', function(req, res) {
-//   res.send(req.params);
-//   var details = req.params;
-//   console.log(details);
-//   res.render('familydetails', { details: details });
-// });
-
-app.get(
-  '/family/:firstname',
-  function(req, res, next) {
-    console.log('First Name:', req.params.firstname);
-    next();
-  },
-  function(req, res, next) {
-    res.send(req.params.firstname);
-  }
-);
-
-app.get('/family/:firstname', function(req, res, next) {
-  res.end(req.params.firstname);
+app.get('/family/:member1', function(req, res) {
+  var person = req.params.member1;
+  var member = flist2[person].firstname;
+  console.log(flist2[person]);
+  res.render('familydetails', { member: member });
 });
 
 app.get('/api/family', function(req, res) {
-  res.json(flist);
+  res.json(flist2);
 });
 
 app.post('/submit-form', urlencodedParser, (req, res) => {
