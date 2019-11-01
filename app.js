@@ -39,6 +39,10 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+app.get('/api', function(req, res) {
+  res.render('api');
+});
+
 app.get('/aboutme', function(req, res) {
   res.render('template', { content: content.aboutme });
   console.log(content.aboutme);
